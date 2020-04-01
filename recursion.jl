@@ -1,5 +1,5 @@
 ################################################################################
-# - Exercise 3: design a recursive algorithm to produce in a plot the
+# - Problem 3: design a recursive algorithm to produce in a plot the
 #               Sierpinski's triangle.
 #using Plots;
 function s_triangle(dim::Int64)
