@@ -96,7 +96,7 @@ function max_sum(V)     #This is the recursive algorithm of the Exercise 4. The
         if j == 1
             return V[j]
         else
-            return V[j] + max(0,sum_mj(V,j-1))
+            return V[j] + sum_mj(V,j-1)
         end
     end
     return maximum(sum_mj(V[i:i+1]) for i=1:length(V)-1)
@@ -153,5 +153,34 @@ function max_sum_bin(V)
     max_1 = max_sum_bin(V[1:pivot])
     max_2 = max_sum_bin(V[pivot:d])
     return max(max_1,max_2)
+end
+################################################################################
+
+################################################################################
+# - Problem 11: Design a recursive function to print the b-subsets of {1,...,n}
+#               of size k, where b is the binomial (n,k)=n!/[(n-k)!k!]
+#
+#
+function rec_subs(V, k = 2)
+    n = length(V)
+    switch = n - k
+    subs = zeros(Int64, k)
+    function fsubs(index = 1, val = 0)
+        for i = 0:switch
+            subs[index] = index + i
+            if index < k
+                fsubs(index + 1, i)
+            else
+                println(subs)
+            end
+        end
+    end
+    if k <= n
+        println(floor(Int, factorial(n)/(factorial(n-k)*factorial(k)))
+        , " subsets:\n")
+        return fsubs()
+    else
+        println("Error: k must be smaller than n.")
+    end
 end
 ################################################################################
