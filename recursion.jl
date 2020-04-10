@@ -101,6 +101,21 @@ function max_sum(V)     #This is the recursive algorithm of the Exercise 4. The
     end
     return maximum(sum_mj(V[i:i+1]) for i=1:length(V)-1)
 end
+
+function max_sum_ind(V, index = 1, first = 0, second = 0, max = 0)
+    dim = length(V)
+    if index + 1 < dim
+        sum = V[index] + V[index+1]
+        if sum > max
+            first = index
+            second = index + 1
+            return max_sum_ind(V, index+1, first, second, sum)
+        else
+            return max_sum_ind(V, index+1, first, second, max)
+        end
+    end
+    return max, first, second
+end
 ################################################################################
 
 ################################################################################
