@@ -1,7 +1,6 @@
 ################################################################################
 # - Problem 3: design a recursive algorithm to produce in a plot the
 #               Sierpinski's triangle.
-#using Plots;
 function s_triangle(dim::Int64)
     #dim is the dimension of the initial square
     x_0, y_0 = 0, 0         #starting points
@@ -82,5 +81,62 @@ function qsort(A, i=1, dim=length(A))
         qsort(A,left_index,dim)
     end
     return A
+end
+################################################################################
+
+################################################################################
+# - Problem 8: How can we extend the recursion in Example 4 to compute the
+#              actual values (i^*, j^*), the argument of the max?
+function max_sum(V)     #This is the recursive algorithm of the Exercise 4. The
+                        #ptoblem now is to "extend" this algorithm to the case
+                        #in which we want to return the indices that generate
+                        #the maximum.
+    j = length(V)
+    function sum_mj(V,j=length(V))
+        if j == 1
+            return V[j]
+        else
+            return V[j] + max(0,sum_mj(V,j-1))
+        end
+    end
+    return maximum(sum_mj(V[i:i+1]) for i=1:length(V)-1)
+end
+################################################################################
+
+################################################################################
+# - Problem 9: Formulate and solve a two-dimensional variant of Example 4.
+function max_sum_2d(V)
+    j = length(V)
+    function sum_mj(V,j=length(V))
+        if j == 1
+            return V[j]
+        else
+            return V[j] + max(0,sum_mj(V,j-1))
+        end
+    end
+    return max(maximum(sum_mj(V[i:i+1,1]) for i=1:length(V[:,1])-1),
+        maximum(sum_mj(V[i:i+1,2]) for i=1:length(V[:,2])-1),
+        maximum(sum_mj(V[i,:]) for i=1:length(V[:,1])-1))
+end
+################################################################################
+
+################################################################################
+# - Problem 10: When possible, a binary division of the problem as in MergeSort
+#               may be preferable to tail recursion, as the computation can be
+#               parallelized on a computer. Instead of tail recursion, devise a
+#               binary divide-and-conquer approach to solve Example 4.
+function max_sum_bin(V)
+    d = length(V)
+    pivot = div(d, 2)
+    #println("dim: ", d, ", pivot: ", V[pivot])
+    #println(V[1:pivot], ",", V[pivot:end])
+    #println("\n")
+    #if pivot == 1 && println(V[pivot] + V[pivot+1]) end
+    #println("\n")
+    #println("\n")
+    pivot == 1 && return V[pivot] + V[pivot+1]
+    max_1 = max_sum_bin(V[1:pivot])
+    max_2 = max_sum_bin(V[pivot:d])
+    return max(max_1,max_2)
 end
 ################################################################################
