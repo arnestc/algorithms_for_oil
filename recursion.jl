@@ -104,7 +104,7 @@ end
 
 function max_sum_ind(V, index = 1, first = 0, second = 0, max = 0)
     dim = length(V)
-    if index + 1 < dim
+    if index + 1 < dim + 1
         sum = V[index] + V[index+1]
         if sum > max
             first = index
@@ -161,8 +161,7 @@ end
 #               of size k, where b is the binomial (n,k)=n!/[(n-k)!k!]
 #
 #
-function rec_subs(V, k = 2)
-    n = length(V)
+function rec_subs(n::Int64, k::Int64)
     switch = n - k
     subs = zeros(Int64, k)
     function fsubs(index = 1, val = 0)
@@ -182,5 +181,24 @@ function rec_subs(V, k = 2)
     else
         println("Error: k must be smaller than n.")
     end
+end
+################################################################################
+
+################################################################################
+# - Problem 12: Given an array of numbers {v(0),...,v(n-1)}, find the maximum k
+#               such that there exists π:0 ≤ ... ≤ π(k) ≤ n-1 with
+#               v(π(1)) ≤ ... ≤ v(π(k).
+function max_ind(V, index = 1, v_p = V[1], k = 1)
+    n = length(V)
+    if index + 1 <= n
+        if v_p <= V[index+1]
+            v_p = V[index+1]
+            k = index + 1
+            return  max_ind(V, index + 1, v_p, k)
+        else
+            return  max_ind(V, index + 1, v_p, k)
+        end
+    end
+    println("Element: ", v_p, " -> position: ", k)
 end
 ################################################################################
