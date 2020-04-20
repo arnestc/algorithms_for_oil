@@ -51,15 +51,14 @@ end
 #              Sort, in which arguments are the indices i,dim into the original
 #              vector.
 function qsort(A, i=1, dim=length(A))
+                                #V is the vector, k is the index searched, i is
+                                #the current index, d is the dimension of the 
+                                #vector.
     #Base case:
     if dim > i
-        pivot = A[rand(i:dim)]  #One can notices that if the starting vector is
-                                #ordered (or partial ordered), the algorithm is
-                                #strongly inefficient. A way to bypass the
-                                #problem is to not choose as pivot the first
-                                #element of the vector, but the middle or a
-                                #random one.
-        left_index, right_index = i, dim
+        pivot = A[rand(i:dim)]#p is the pivot
+        left_index, right_index = i, dim#left_i and rigth_i are the delimitors of the
+                                #vector
         while left_index <= right_index
             while A[left_index] < pivot #These two while cycles individuate the
                                         #first two vector elements (through
